@@ -6,7 +6,7 @@ class Hexagon{
   private int element;
   private int skill;
   private boolean matched;
-  private String[] image={"skill0.png"};
+  private String[] image={"skill0.png","skill1.png"};
   
   Hexagon(int x,int y){
     this.x = x;
@@ -136,16 +136,24 @@ class Hexagon{
     startSkill(hexagons,x,y);
   }
   
-  //スキル処理
+  //スキルマスをランダムなマスにセット
   void setSkill(){
-    //スキル1：上下1マス消去
+    //スキル1-1：上下1マス消去
     if(player.item[0]){
       if((int)random(50) == 1){
         skill=0;
       }
     }
+    //スキル1-2：上下以外の隣り合うマスを消去
+    if(player.item[1]){
+      if((int)random(50) == 1){
+        skill=1;
+      }
+    }
   }
+  //スキル処理
   void startSkill(Hexagon[] hexagons,int x,int y){
+    //スキル1-1：上下1マス消去
     if(hexagons[x*6+y].skill == 0){
       hexagons[x*6+y].skill=-1;
       if(y > 0){
@@ -155,6 +163,26 @@ class Hexagon{
       if(y < 5){
         hexagons[x*6+(y+1)].setMatched(true);
         startSkill(hexagons,x,y+1);
+      }
+    }
+    //スキル1-2：上下以外の隣り合うマスを消去
+    if(hexagons[x*6+y].skill == 1){
+      hexagons[x*6+y].skill=-1;
+      if(x > 0 && y > 0){
+        hexagons[(x-1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x-1,y-x%2);
+      }
+      if(x > 0 && y < 5){
+        hexagons[(x-1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,x-1,y-x%2+1);
+      }
+      if(x < 6 && y > 0){
+        hexagons[(x+1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x+1,y-x%2);
+      }
+      if(x < 6 && y < 5){
+        hexagons[(x+1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,x+1,y-x%2+1);
       }
     }
   }
