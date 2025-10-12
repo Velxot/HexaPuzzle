@@ -10,13 +10,14 @@ PImage YOULOSE;
 int situation;
 boolean matched;
 boolean enemyturn;
-int stage=0;
-int reachedstage=0;
+int stage;
+int reachedstage;
 int max_stage=14;
 boolean exp_flug;
 boolean drop_flug;
 int drop_num;
 boolean stageselect = false;  //ステージセレクト画面を表示するか
+boolean reset =false;  //リセット確認画面を表示するか
 String[] stagename = {"草原","砂漠","深海"};
 
 void setup(){
@@ -24,6 +25,8 @@ void setup(){
   background(200);
   PFont font = createFont("Meiryo", 50);
   textFont(font);
+  stage=0;
+  reachedstage=0;
   setEnemy(stage);
   hexagons = new Hexagon[42];
   player = new Player();
@@ -46,6 +49,7 @@ void startBattle(){
   exp_flug=true;
   drop_flug=true;
   drop_num =(int)random(100);
+  
   player.hp=player.max_hp;
 }
 
@@ -92,10 +96,36 @@ void draw(){
       text("stage"+(i+1)+"　"+stagename[i],100,420+30*i);
     }
   }
+  if(reset){
+    RESULT = loadImage("result.png");
+    BUTTON = loadImage("button.png");
+    image(RESULT,85, 370, 175, 180);
+    image(BUTTON,90,500,75,30);
+    image(BUTTON,180,500,75,30);
+    textSize(20);
+    fill(0,0,0);
+    text("リセットします。",90,450);
+    text("よろしいですか？",90,470);
+    fill(255,255,255);
+    text("いいえ",98,520);
+    text("はい",195,520);
+  }
 }
 
 void mousePressed(){
-  if(stageselect){
+  if(reset){
+     if ( mouseX >= 100 && mouseX <= 100 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
+      reset=false;
+      gameover();
+    }
+    if ( mouseX >= 192 && mouseX <= 192 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
+      //ステータス全リセット
+      reset=false;
+      setup();
+      startBattle();
+    }
+  }
+  else if(stageselect){
     for(int i=0;i<=reachedstage/5;i++){
       if ( mouseX >= 80 && mouseX <= 80 + 190 && mouseY >= 400+30*i && mouseY <= 400 + 30*i + 30 ){
         stage = i*5;
@@ -107,7 +137,7 @@ void mousePressed(){
   }
   else if(player.getHP() == 0 || enemy.getHP() == 0){
     if ( mouseX >= 100 && mouseX <= 100 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
-      exit();
+      reset=true;
     }
     if ( mouseX >= 192 && mouseX <= 192 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
       if(enemy.getHP() == 0){
@@ -224,10 +254,10 @@ void gameover(){
       image(ENEMY,140,412,20,20);
       drop_flug=false;
       player.item[stage]=true;
-      text("+" + enemy.getExperience() + " EXP",170,430);
+      text(enemy.getExperience() + " EXP",170,430);
     }
     else{
-      text("+" + enemy.getExperience() + " EXP",130,430);
+      text(enemy.getExperience() + " EXP",130,430);
     }
     if(player.levelflug){
       text("LEVEL UP!",130,470);
@@ -266,7 +296,7 @@ void gameover(){
       fill(0,0,0);
       text("各敵はランダムで",100,430);
       text("強化アイテムを落とす",100,450);
-      text("弱い敵も重要だ！",100,450);
+      text("弱い敵も重要だ！",100,470);
     }
   }
   if(reachedstage/5>=1){

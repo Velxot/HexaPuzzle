@@ -26,6 +26,17 @@ class Player extends Chara{
       this.attack_point = ap_info[level];
       this.level++;
       levelflug = true;
+      //ステータス上昇スキル適用
+      if(player.item[4]){
+         player.max_hp=player.max_hp*3/2;
+         player.attack_point=player.attack_point*3/2;
+      }
+      if(player.item[6]){
+         player.attack_point*=3;
+      }
+      if(player.item[7]){
+         player.max_hp*=3;
+      }
     }
   }
   
@@ -36,8 +47,8 @@ class Player extends Chara{
     rect(8,264,336*hp/max_hp,20);
     textSize(20);
     fill(0,0,0);
-    text("HP:"+hp+"/"+max_hp,100,282);
-    text("攻撃力:"+attack_point,240,282);
-    text("LEVEL:"+level,8,282);
+    text("HP:"+hp+"/"+max_hp,80,282);
+    text("ATK:"+attack_point,240,282);
+    text("LV:"+level,8,282);
   }
 }

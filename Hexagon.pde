@@ -6,7 +6,7 @@ class Hexagon{
   private int element;
   private int skill;
   private boolean matched;
-  private String[] image={"skill0.png","skill1.png"};
+  private String[] image={"skill0.png","skill1.png","skill2.png","skill3.png","skill4.png"};
   
   Hexagon(int x,int y){
     this.x = x;
@@ -146,8 +146,26 @@ class Hexagon{
     }
     //スキル1-2：上下以外の隣り合うマスを消去
     if(player.item[1]){
-      if((int)random(50) == 1){
+      if((int)random(50) == 5){
         skill=1;
+      }
+    }
+    //スキル1-3：体力を10%回復
+    if(player.item[2]){
+      if((int)random(50) == 1){
+        skill=2;
+      }
+    }
+    //スキル1-4：そのマスの攻撃力5倍
+    if(player.item[3]){
+      if((int)random(50) == 1){
+        skill=3;
+      }
+    }
+    //スキル2-1：隣り合う6マスを消去
+    if(player.item[5]){
+      if((int)random(50) == 1){
+        skill=4;
       }
     }
   }
@@ -165,8 +183,8 @@ class Hexagon{
         startSkill(hexagons,x,y+1);
       }
     }
-    //スキル1-2：上下以外の隣り合うマスを消去
-    if(hexagons[x*6+y].skill == 1){
+    //スキル1-2：上下以外の隣り合うマスを消去 & スキル2-1：隣り合う6マスを消去
+    if(hexagons[x*6+y].skill == 1 || hexagons[x*6+y].skill == 4){
       hexagons[x*6+y].skill=-1;
       if(x > 0 && y > 0){
         hexagons[(x-1)*6+(y-x%2)].setMatched(true);
@@ -184,6 +202,79 @@ class Hexagon{
         hexagons[(x+1)*6+(y-x%2+1)].setMatched(true);
         startSkill(hexagons,x+1,y-x%2+1);
       }
+      if(x % 2 == 0 && x < 6){
+        hexagons[(x+1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x+1,y-x%2);
+      }
+      if(x % 2 == 0 && x > 0){
+        hexagons[(x-1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x-1,y-x%2);
+      }
+      if(x % 2 == 1){
+        hexagons[(x+1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,(x+1),(y-x%2+1));
+      }
+      if(x % 2 == 1){
+        hexagons[(x-1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,(x-1),(y-x%2+1));
+      }
+    }
+    //スキル1-3：体力を10%回復
+    if(hexagons[x*6+y].skill == 2){
+      hexagons[x*6+y].skill = -1;
+      player.setHP(player.getHP()+player.max_hp/10);
+    }
+    //スキル1-4：そのマスの攻撃力5倍
+    if(hexagons[x*6+y].skill == 3){
+      hexagons[x*6+y].skill = -1;
+      for(int i=0;i<5;i++){
+        player.attack(enemy);
+      }
+    }
+    
+    //スキル2-1：隣り合う6マスを消去
+    if(hexagons[x*6+y].skill == 4){
+      hexagons[x*6+y].skill=-1;
+      if(y > 0){
+        hexagons[x*6+(y-1)].setMatched(true);
+        startSkill(hexagons,x,y-1);
+      }
+      if(y < 5){
+        hexagons[x*6+(y+1)].setMatched(true);
+        startSkill(hexagons,x,y+1);
+      }
+      if(x > 0 && y > 0){
+        hexagons[(x-1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x-1,y-x%2);
+      }
+      if(x > 0 && y < 5){
+        hexagons[(x-1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,x-1,y-x%2+1);
+      }
+      if(x < 6 && y > 0){
+        hexagons[(x+1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x+1,y-x%2);
+      }
+      if(x < 6 && y < 5){
+        hexagons[(x+1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,x+1,y-x%2+1);
+      }
+      if(x % 2 == 0 && x < 6){
+        hexagons[(x+1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x+1,y-x%2);
+      }
+      if(x % 2 == 0 && x > 0){
+        hexagons[(x-1)*6+(y-x%2)].setMatched(true);
+        startSkill(hexagons,x-1,y-x%2);
+      }
+      if(x % 2 == 1){
+        hexagons[(x+1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,(x+1),(y-x%2+1));
+      }
+      if(x % 2 == 1){
+        hexagons[(x-1)*6+(y-x%2+1)].setMatched(true);
+        startSkill(hexagons,(x-1),(y-x%2+1));
+      }
     }
   }
   
@@ -192,7 +283,19 @@ class Hexagon{
       this.element = -1;
       this.skill = -1;
       this.matched = false;
-      player.attack(enemy);
+      if(player.item[8]){
+        if((int)random(10) == 1){
+          for(int i=0;i<5;i++){
+            player.attack(enemy);
+          }
+        }
+        else{
+          player.attack(enemy);
+        }
+      }
+      else{
+        player.attack(enemy);
+      }
     }
   }
   void supply(){
