@@ -119,7 +119,8 @@ class Enemy extends Chara{
   
   void paint(){
     image(BACK,0,0,360,265);
-    image(ENEMY,60,20, 240, 240);
+    //image(ENEMY,60,20, 240, 240);//AIイラスト用
+    image(ENEMY,0,-95, 360, 360);//人力イラスト用
     fill(255, 0, 0);
     rect(80,8,200,8);
     fill(0,255,0);

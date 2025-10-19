@@ -184,7 +184,7 @@ class Hexagon{
       }
     }
     //スキル1-2：上下以外の隣り合うマスを消去 & スキル2-1：隣り合う6マスを消去
-    if(hexagons[x*6+y].skill == 1 || hexagons[x*6+y].skill == 4){
+    if(hexagons[x*6+y].skill == 1){
       hexagons[x*6+y].skill=-1;
       if(x > 0 && y > 0){
         hexagons[(x-1)*6+(y-x%2)].setMatched(true);
@@ -232,7 +232,7 @@ class Hexagon{
       }
     }
     
-    //スキル2-1：隣り合う6マスを消去
+    //スキル2-1：隣り合う6マスを消去　バグあり（端で想定外の挙動）
     if(hexagons[x*6+y].skill == 4){
       hexagons[x*6+y].skill=-1;
       if(y > 0){

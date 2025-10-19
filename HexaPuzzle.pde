@@ -169,15 +169,15 @@ void mousePressed(){
 
 void setEnemy(int stage){
   if(stage==0){
-    ENEMY=loadImage("hopper.png");
+    ENEMY=loadImage("hopper_hex.png");//hopper.png
     BACK=loadImage("grassland.png");
   }
   if(stage==1){
-    ENEMY=loadImage("mantis.png");
+    ENEMY=loadImage("mantis_hex.png");
     BACK=loadImage("grassland.png");
   }
   if(stage==2){
-    ENEMY=loadImage("butterfly.png");
+    ENEMY=loadImage("butterfly_hex.png");
     BACK=loadImage("grassland.png");
   }
   if(stage==3){
