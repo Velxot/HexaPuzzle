@@ -42,35 +42,35 @@ class Enemy extends Chara{
       hp = max_hp;
       attack_point = 20 + (int)random(6);
       experience = 50;
-      drop=100;
+      drop=30;
     }
     else if(stage==6){
       max_hp = 100 + (int)random(100);
       hp = max_hp;
       attack_point = 50 + (int)random(6);
       experience = 100;
-      drop=100;
+      drop=30;
     }
     else if(stage==7){
       max_hp = 200 + (int)random(100);
       hp = max_hp;
       attack_point = 50 + (int)random(6);
       experience = 150;
-      drop=100;
+      drop=30;
     }
     else if(stage==8){
       max_hp = 250 + (int)random(100);
       hp = max_hp;
       attack_point = 60 + (int)random(6);
       experience = 150;
-      drop=100;
+      drop=30;
     }
     else if(stage==9){
       max_hp = 500 + (int)random(100);
       hp = max_hp;
       attack_point = 30 + (int)random(6);
       experience = 500;
-      drop=100;
+      drop=20;
     }
     else if(stage==10){
       max_hp = 450 + (int)random(100);
@@ -107,6 +107,14 @@ class Enemy extends Chara{
       experience = 800;
       drop=5;
     }
+    
+    //スキル3-1：アイテムドロップ率を50％に固定
+    if(player.item[10]){
+      drop=50;
+    }
+    if(player.item[12]){
+      attack_point /=2;
+    }
   }
   
   int getExperience(){
@@ -119,8 +127,12 @@ class Enemy extends Chara{
   
   void paint(){
     image(BACK,0,0,360,265);
-    //image(ENEMY,60,20, 240, 240);//AIイラスト用
-    image(ENEMY,0,-95, 360, 360);//人力イラスト用
+    if(stage>=7){
+      image(ENEMY,60,20, 240, 240);//AIイラスト用
+    }
+    else{
+      image(ENEMY,0,-95, 360, 360);//人力イラスト用
+    }
     fill(255, 0, 0);
     rect(80,8,200,8);
     fill(0,255,0);

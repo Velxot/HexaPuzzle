@@ -86,8 +86,8 @@ void draw(){
   }
   
   if(stageselect){
-    RESULT = loadImage("result.png");
-    BUTTON = loadImage("button.png");
+    RESULT = loadImage("Images/result.png");
+    BUTTON = loadImage("Images/button.png");
     image(RESULT,85, 370, 175, 180);
     textSize(18);
     fill(255,255,255);
@@ -97,8 +97,8 @@ void draw(){
     }
   }
   if(reset){
-    RESULT = loadImage("result.png");
-    BUTTON = loadImage("button.png");
+    RESULT = loadImage("Images/result.png");
+    BUTTON = loadImage("Images/button.png");
     image(RESULT,85, 370, 175, 180);
     image(BUTTON,90,500,75,30);
     image(BUTTON,180,500,75,30);
@@ -169,77 +169,77 @@ void mousePressed(){
 
 void setEnemy(int stage){
   if(stage==0){
-    ENEMY=loadImage("hopper_hex.png");//hopper.png
-    BACK=loadImage("grassland.png");
+    ENEMY=loadImage("Images/hopper_hex.png");
+    BACK=loadImage("Images/grassland.png");
   }
   if(stage==1){
-    ENEMY=loadImage("mantis_hex.png");
-    BACK=loadImage("grassland.png");
+    ENEMY=loadImage("Images/mantis_hex.png");
+    BACK=loadImage("Images/grassland.png");
   }
   if(stage==2){
-    ENEMY=loadImage("butterfly_hex.png");
-    BACK=loadImage("grassland.png");
+    ENEMY=loadImage("Images/butterfly_hex.png");
+    BACK=loadImage("Images/grassland.png");
   }
   if(stage==3){
-    ENEMY=loadImage("honet.png");
-    BACK=loadImage("grassland.png");
+    ENEMY=loadImage("Images/honet_hex.png");
+    BACK=loadImage("Images/grassland.png");
   }
   if(stage==4){
-    ENEMY=loadImage("redibug.png");
-    BACK=loadImage("grassland.png");
+    ENEMY=loadImage("Images/redibug_hex.png");
+    BACK=loadImage("Images/grassland.png");
   }
   if(stage==5){
-    ENEMY=loadImage("sasori.png");
-    BACK=loadImage("desert.png");
+    ENEMY=loadImage("Images/poseidon.png");//sasori
+    BACK=loadImage("Images/desert.png");
   }
   if(stage==6){
-    ENEMY=loadImage("kangaroo.png");
-    BACK=loadImage("desert.png");
+    ENEMY=loadImage("Images/zeus.png");
+    BACK=loadImage("Images/desert.png");
   }
   if(stage==7){
-    ENEMY=loadImage("rakuda.png");
-    BACK=loadImage("desert.png");
+    ENEMY=loadImage("Images/rakuda.png");
+    BACK=loadImage("Images/desert.png");
   }
   if(stage==8){
-    ENEMY=loadImage("datyou.png");
-    BACK=loadImage("desert.png");
+    ENEMY=loadImage("Images/datyou.png");
+    BACK=loadImage("Images/desert.png");
   }
   if(stage==9){
-    ENEMY=loadImage("elephant.png");
-    BACK=loadImage("desert.png");
+    ENEMY=loadImage("Images/elephant.png");
+    BACK=loadImage("Images/desert.png");
   }
   if(stage==10){
-    ENEMY=loadImage("fish.png");
-    BACK=loadImage("deepsea.png");
+    ENEMY=loadImage("Images/fish.png");
+    BACK=loadImage("Images/deepsea.png");
   }
   if(stage==11){
-    ENEMY=loadImage("squash.png");
-    BACK=loadImage("deepsea.png");
+    ENEMY=loadImage("Images/squash.png");
+    BACK=loadImage("Images/deepsea.png");
   }
   if(stage==12){
-    ENEMY=loadImage("clab.png");
-    BACK=loadImage("deepsea.png");
+    ENEMY=loadImage("Images/clab.png");
+    BACK=loadImage("Images/deepsea.png");
   }
   if(stage==13){
-    ENEMY=loadImage("jaws.png");
-    BACK=loadImage("deepsea.png");
+    ENEMY=loadImage("Images/jaws.png");
+    BACK=loadImage("Images/deepsea.png");
   }
   if(stage==14){
-    ENEMY=loadImage("whale.png");
-    BACK=loadImage("deepsea.png");
+    ENEMY=loadImage("Images/whale.png");
+    BACK=loadImage("Images/deepsea.png");
   }
 }
 
 void gameover(){
-  RESULT = loadImage("result.png");
-  BUTTON = loadImage("button.png");
+  RESULT = loadImage("Images/result.png");
+  BUTTON = loadImage("Images/button.png");
   image(RESULT,85, 370, 175, 180);
   image(BUTTON,90,500,75,30);
   image(BUTTON,180,500,75,30);
   textSize(40);
   fill(0,0,0);
   if(enemy.getHP() == 0){
-    YOUWIN=loadImage("YOUWIN.png");
+    YOUWIN=loadImage("Images/YOUWIN.png");
     image(YOUWIN,90,380,165,30);
     textSize(20);
     if(exp_flug){
@@ -271,7 +271,7 @@ void gameover(){
     text("次へ",195,520);
   }
   else{
-    YOULOSE=loadImage("YOULOSE.png");
+    YOULOSE=loadImage("Images/YOULOSE.png");
     image(YOULOSE,90,380,165,30);
     textSize(15);
     fill(0,0,0);

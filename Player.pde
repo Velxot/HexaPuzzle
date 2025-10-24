@@ -27,13 +27,16 @@ class Player extends Chara{
       this.level++;
       levelflug = true;
       //ステータス上昇スキル適用
+      //スキル1-5：体力1.5倍、攻撃力1.5倍
       if(player.item[4]){
          player.max_hp=player.max_hp*3/2;
          player.attack_point=player.attack_point*3/2;
       }
+      //スキル2-2：攻撃力3倍
       if(player.item[6]){
          player.attack_point*=3;
       }
+      //スキル2-3：体力3倍
       if(player.item[7]){
          player.max_hp*=3;
       }

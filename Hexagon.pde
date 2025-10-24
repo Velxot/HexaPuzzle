@@ -6,7 +6,7 @@ class Hexagon{
   private int element;
   private int skill;
   private boolean matched;
-  private String[] image={"skill0.png","skill1.png","skill2.png","skill3.png","skill4.png"};
+  private String[] image={"Images/skill0.png","Images/skill1.png","Images/skill2.png","Images/skill3.png","Images/skill4.png","Images/skill5.png"};
   
   Hexagon(int x,int y){
     this.x = x;
@@ -151,7 +151,7 @@ class Hexagon{
       }
     }
     //スキル1-3：体力を10%回復
-    if(player.item[2]){
+    if(player.item[2] || player.item[9] || player.item[14] ){
       if((int)random(50) == 1){
         skill=2;
       }
@@ -168,10 +168,16 @@ class Hexagon{
         skill=4;
       }
     }
+    //スキル3-5：全消し
+    if(player.item[13]){
+      if((int)random(100) == 1){
+        skill=5;
+      }
+    }
   }
   //スキル処理
   void startSkill(Hexagon[] hexagons,int x,int y){
-    //スキル1-1：上下1マス消去
+    //スキル1-1：上下1マスを消去
     if(hexagons[x*6+y].skill == 0){
       hexagons[x*6+y].skill=-1;
       if(y > 0){
@@ -183,7 +189,7 @@ class Hexagon{
         startSkill(hexagons,x,y+1);
       }
     }
-    //スキル1-2：上下以外の隣り合うマスを消去 & スキル2-1：隣り合う6マスを消去
+    //スキル1-2：上下以外の隣り合うマスを消去
     if(hexagons[x*6+y].skill == 1){
       hexagons[x*6+y].skill=-1;
       if(x > 0 && y > 0){
@@ -219,10 +225,21 @@ class Hexagon{
         startSkill(hexagons,(x-1),(y-x%2+1));
       }
     }
-    //スキル1-3：体力を10%回復
+    //スキル1-3：体力を10%回復 & スキル2-5：体力を20%回復
     if(hexagons[x*6+y].skill == 2){
       hexagons[x*6+y].skill = -1;
-      player.setHP(player.getHP()+player.max_hp/10);
+      if(player.item[14]){
+        player.setHP(player.getHP()+player.max_hp/4);
+      }
+      else if(player.item[11]){
+        player.setHP(player.getHP()+player.max_hp/4);
+      }
+      else if(player.item[9]){
+        player.setHP(player.getHP()+player.max_hp/5);
+      }
+      else{
+        player.setHP(player.getHP()+player.max_hp/10);
+      }
     }
     //スキル1-4：そのマスの攻撃力5倍
     if(hexagons[x*6+y].skill == 3){
@@ -232,7 +249,7 @@ class Hexagon{
       }
     }
     
-    //スキル2-1：隣り合う6マスを消去　バグあり（端で想定外の挙動）
+    //スキル2-1：隣り合う6マスを消去
     if(hexagons[x*6+y].skill == 4){
       hexagons[x*6+y].skill=-1;
       if(y > 0){
@@ -276,6 +293,12 @@ class Hexagon{
         startSkill(hexagons,(x-1),(y-x%2+1));
       }
     }
+    //スキル3-4：全消し
+    if(hexagons[x*6+y].skill == 5){
+      for(int i=0;i<42;i++){
+        hexagons[i].setMatched(true);
+      }
+    }
   }
   
   void remove(){
@@ -283,6 +306,7 @@ class Hexagon{
       this.element = -1;
       this.skill = -1;
       this.matched = false;
+      //スキル2-4：10％で5倍ダメージ
       if(player.item[8]){
         if((int)random(10) == 1){
           for(int i=0;i<5;i++){
