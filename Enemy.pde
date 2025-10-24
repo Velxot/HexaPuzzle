@@ -1,5 +1,11 @@
 class Enemy extends Chara{
   int drop;
+  // ダメージ表示用のフィールド
+  private int lastDamage = 0;
+  private long damageDisplayStartTime = 0;
+  private final int DAMAGE_DISPLAY_DURATION = 1500; // 1.5秒
+  private float damageDisplayOffsetX = 0;
+  private float damageDisplayOffsetY = 0;
   Enemy(){
     super();
     if(stage==0){
@@ -68,42 +74,42 @@ class Enemy extends Chara{
     else if(stage==9){
       max_hp = 500 + (int)random(100);
       hp = max_hp;
-      attack_point = 30 + (int)random(6);
+      attack_point = 75 + (int)random(6);
       experience = 500;
       drop=20;
     }
     else if(stage==10){
       max_hp = 450 + (int)random(100);
       hp = max_hp;
-      attack_point = 60 + (int)random(6);
+      attack_point = 70 + (int)random(6);
       experience = 450;
       drop=5;
     }
     else if(stage==11){
       max_hp = 500 + (int)random(100);
       hp = max_hp;
-      attack_point = 75 + (int)random(6);
+      attack_point = 100 + (int)random(6);
       experience = 500;
       drop=5;
     }
     else if(stage==12){
       max_hp = 750 + (int)random(100);
       hp = max_hp;
-      attack_point = 70 + (int)random(6);
+      attack_point = 120 + (int)random(6);
       experience = 600;
       drop=5;
     }
     else if(stage==13){
       max_hp = 800 + (int)random(100);
       hp = max_hp;
-      attack_point = 100 + (int)random(6);
+      attack_point = 150 + (int)random(6);
       experience = 750;
       drop=5;
     }
     else if(stage==14){
       max_hp = 1000 + (int)random(100);
       hp = max_hp;
-      attack_point = 90 + (int)random(6);
+      attack_point = 200 + (int)random(6);
       experience = 800;
       drop=5;
     }
@@ -125,7 +131,16 @@ class Enemy extends Chara{
     player.setHP(player.getHP()-this.attack_point);
   }
   
-  void paint(){
+  // 攻撃を受け付け、ダメージ表示を開始するメソッド
+  public void receiveDamage(int damage) {
+    this.setHP(this.getHP() - damage); // CharaのsetHPを呼び出す
+    this.lastDamage = damage;
+    this.damageDisplayStartTime = millis();
+    this.damageDisplayOffsetX = random(-50, 50); 
+    this.damageDisplayOffsetY = random(-50, 50);
+  }
+  
+void paint(){
     image(BACK,0,0,360,265);
     if(stage>=7){
       image(ENEMY,60,20, 240, 240);//AIイラスト用
@@ -137,5 +152,60 @@ class Enemy extends Chara{
     rect(80,8,200,8);
     fill(0,255,0);
     rect(80,8,200*hp/max_hp,8);
+    
+    // ダメージ表示
+    long elapsedTime = millis() - damageDisplayStartTime;
+  
+    if (elapsedTime < DAMAGE_DISPLAY_DURATION) {
+    
+      // 敵の中心座標を仮に (180, 200) とします。
+      final float ENEMY_CENTER_X = 180; 
+      final float ENEMY_CENTER_Y = 200;
+    
+      // 1. 透明度（Alpha値）を計算
+      int alpha = (int)map(elapsedTime, 0, DAMAGE_DISPLAY_DURATION, 255, 0);
+      alpha = constrain(alpha, 0, 255);
+      
+      // 2. 表示位置を計算 (ランダムオフセットと時間経過による上昇を加える)
+      float displayX = ENEMY_CENTER_X + damageDisplayOffsetX;
+      float verticalOffset = map(elapsedTime, 0, DAMAGE_DISPLAY_DURATION, 0, -40); // 40ピクセル上昇
+      float displayY = ENEMY_CENTER_Y + damageDisplayOffsetY + verticalOffset;
+      
+      // 3. 画像とテキストの描画
+      
+      // 画像のサイズ（使用する画像に合わせて調整してください）
+      // 例: 幅80px、高さ50pxと仮定
+      float bubbleWidth = 80;
+      float bubbleHeight = 50;
+      
+      // 画像の中心座標を計算（画像を中央に配置するため）
+      float bubbleImageX = displayX - bubbleWidth / 2;
+      float bubbleImageY = displayY - bubbleHeight / 2;
+      
+      // PImageの透明度を設定（`tint()`を使用）
+      tint(255, 255, 255, alpha); 
+      
+      // 3-1. ダメージ吹き出し画像を描画
+      // HexaPuzzle.pdeのグローバル変数 DAMAGE_BUBBLE_IMAGE を使用
+      image(DAMAGE, bubbleImageX, bubbleImageY, bubbleWidth, bubbleHeight);
+      
+      // tintをリセット (他の画像に影響しないように)
+      noTint(); 
+      
+      // 3-2. 数値の描画
+      textSize(24); // 画像サイズに合わせて調整
+      String damageText = "-" + lastDamage;
+      
+      // テキストは画像の中心に配置
+      textAlign(CENTER);
+      
+      fill(255, 0, 0, alpha);
+      
+      // テキストを描画 (displayYはテキストのベースライン。画像の中心Yに合わせるため調整)
+      text(damageText, displayX, displayY + 8); // +8 は微調整用
+      
+      // 描画設定を元に戻す
+      textAlign(LEFT);
+    }
   }
 }

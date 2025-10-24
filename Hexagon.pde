@@ -20,19 +20,19 @@ class Hexagon{
   
   void paint(){
     if(element == 0){
-      fill(255, 0, 0);
+      fill(200, 0, 0);
     }
     else if(element == 1){
-      fill(0, 255, 0);
+      fill(0, 200, 0);
     }
     else if(element == 2){
-      fill(0, 0, 255);
+      fill(0, 0, 200);
     }
     else if(element == 3){
-      fill(255, 255, 0);
+      fill(200, 200, 0);
     }
     else if(element == 4){
-      fill(255, 0, 255);
+      fill(200, 0, 200);
     }
     else{
       fill(255,255,255);
@@ -245,7 +245,7 @@ class Hexagon{
     if(hexagons[x*6+y].skill == 3){
       hexagons[x*6+y].skill = -1;
       for(int i=0;i<5;i++){
-        player.attack(enemy);
+        player.attack();
       }
     }
     
@@ -310,15 +310,15 @@ class Hexagon{
       if(player.item[8]){
         if((int)random(10) == 1){
           for(int i=0;i<5;i++){
-            player.attack(enemy);
+            player.attack();
           }
         }
         else{
-          player.attack(enemy);
+          player.attack();
         }
       }
       else{
-        player.attack(enemy);
+        player.attack();
       }
     }
   }

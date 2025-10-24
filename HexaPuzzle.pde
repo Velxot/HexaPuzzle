@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 Hexagon[] hexagons;
 Enemy enemy;
 Player player;
@@ -7,6 +9,9 @@ PImage RESULT;
 PImage BUTTON;
 PImage YOUWIN;
 PImage YOULOSE;
+PImage GAMECLEAR;
+PImage DAMAGE;
+SoundFile attackSound; // 攻撃音用の変数
 int situation;
 boolean matched;
 boolean enemyturn;
@@ -17,8 +22,12 @@ boolean exp_flug;
 boolean drop_flug;
 int drop_num;
 boolean stageselect = false;  //ステージセレクト画面を表示するか
-boolean reset =false;  //リセット確認画面を表示するか
+boolean reset = false;  //リセット確認画面を表示するか
+boolean clear = false;  //クリア画面を表示するか
 String[] stagename = {"草原","砂漠","深海"};
+int damageDisplayValue = 0;
+long damageDisplayStartTime = 0;
+final int DISPLAY_DURATION = 1500; // 1500ミリ秒 (1.5秒) 表示
 
 void setup(){
   size(360,640);
@@ -35,6 +44,8 @@ void setup(){
     hexagons[i] = new Hexagon(i/6,i%6);
   }
   exp_flug=true;
+  attackSound = new SoundFile(this, "小パンチ.mp3"); // ファイル名は適宜変更
+  DAMAGE = loadImage("Images/damage_UI.png");
 }
 
 void startBattle(){
@@ -73,13 +84,25 @@ void draw(){
     delay(200);
   }
   //パズル供給
-  else if(situation==1){
-    for(int i = 0; i < hexagons.length; i++){
-       hexagons[i].supply();
+  else if(situation == 1){
+      boolean supplied = true;
+      for(int i = 0; i < hexagons.length; i++){
+        hexagons[i].supply();
+        if(hexagons[i].getElement() == -1){
+          supplied = false;
+        }
+      }
+      if(supplied){
+        situation = 2;
+        delay(200);
+        
+        player.applyDamage(enemy, attackSound);
+        
+        if(enemy.getHP() <= 0){
+          situation = 3;
+        }
+      }
     }
-    situation=0;
-    delay(200);
-  }
   if(enemyturn){
     enemy.attack(player);
     enemyturn = false;
@@ -110,6 +133,18 @@ void draw(){
     text("いいえ",98,520);
     text("はい",195,520);
   }
+  if(clear){
+    image(RESULT,40, 370, 265, 200);
+    GAMECLEAR=loadImage("Images/GAMECLEAR.png");
+    image(GAMECLEAR,80,380,185,35);
+    textSize(20);
+    fill(0,0,0);
+    text("遊んでくれてありがとう！",60,450);
+    text("プログラミング　：Velxot",58,470);
+    text("イラスト(怪人)　：Velxot",60,490);
+    text("イラスト(その他)：こめず",60,510);
+    text("　クリックではじめから",60,550);
+  }
 }
 
 void mousePressed(){
@@ -124,6 +159,12 @@ void mousePressed(){
       setup();
       startBattle();
     }
+  }
+  if(clear){
+    //ステータス全リセット
+    clear=false;
+    setup();
+    startBattle();
   }
   else if(stageselect){
     for(int i=0;i<=reachedstage/5;i++){
@@ -145,9 +186,6 @@ void mousePressed(){
         if(reachedstage<stage && stage<=max_stage){
           reachedstage=stage;
         }
-      }
-      if(stage>max_stage){
-        stage=0;
       }
       startBattle();
     }
@@ -239,6 +277,9 @@ void gameover(){
   textSize(40);
   fill(0,0,0);
   if(enemy.getHP() == 0){
+    if(stage==max_stage){
+      clear=true;
+    }
     YOUWIN=loadImage("Images/YOUWIN.png");
     image(YOUWIN,90,380,165,30);
     textSize(20);

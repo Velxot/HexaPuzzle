@@ -5,6 +5,9 @@ class Player extends Chara{
     int[] hp_info = {100,120,145,175,200,225,250,280,315,350,380,420,450,475,500,530,570,600,650,700,800,900,1000,1200,1400};
     int[] ap_info = {5,6,7,8,10,12,14,16,16,20,23,26,30,35,40,45,50,57,63,70,80,90,100,110,120,135,150,200};
     boolean[] item ={false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
+  
+    public int currentTurnDamage = 0;
+  
   Player(){
     super();
     experience = level_info[0];
@@ -14,8 +17,22 @@ class Player extends Chara{
     attack_point = ap_info[0];
   }
   
-  void attack(Enemy enemy){
-    enemy.setHP(enemy.getHP()-this.attack_point);
+  void attack(){
+    this.currentTurnDamage += this.attack_point;
+  }
+  
+  void applyDamage(Enemy enemy, SoundFile attackSound) {
+    if (this.currentTurnDamage > 0) {
+        // 敵に合計ダメージを適用し、ダメージ表示をトリガー
+        enemy.receiveDamage(this.currentTurnDamage);
+        
+        // 音声再生 (HexaPuzzle.pdeから移動させます)
+        if (attackSound != null) {
+            attackSound.play();
+        }
+    }
+    // ダメージをリセット
+    this.currentTurnDamage = 0;
   }
   
   void checkLevel(int exp){
