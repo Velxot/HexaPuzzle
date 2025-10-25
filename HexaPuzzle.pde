@@ -11,7 +11,10 @@ PImage YOUWIN;
 PImage YOULOSE;
 PImage GAMECLEAR;
 PImage DAMAGE;
+SoundFile tapSound;
 SoundFile attackSound; // 攻撃音用の変数
+SoundFile clearSound;
+SoundFile defeatSound;
 int situation;
 boolean matched;
 boolean enemyturn;
@@ -28,6 +31,7 @@ String[] stagename = {"草原","砂漠","深海"};
 int damageDisplayValue = 0;
 long damageDisplayStartTime = 0;
 final int DISPLAY_DURATION = 1500; // 1500ミリ秒 (1.5秒) 表示
+boolean gameoverSoundPlayed = false;
 
 void setup(){
   size(360,640);
@@ -44,7 +48,10 @@ void setup(){
     hexagons[i] = new Hexagon(i/6,i%6);
   }
   exp_flug=true;
-  attackSound = new SoundFile(this, "小パンチ.mp3"); // ファイル名は適宜変更
+  tapSound = new SoundFile(this,"決定ボタンを押す2.mp3");
+  attackSound = new SoundFile(this, "小パンチ.mp3");
+  clearSound = new SoundFile(this, "決定ボタンを押す8.mp3");
+  defeatSound = new SoundFile(this, "決定ボタンを押す18.mp3");
   DAMAGE = loadImage("Images/damage_UI.png");
 }
 
@@ -62,6 +69,8 @@ void startBattle(){
   drop_num =(int)random(100);
   
   player.hp=player.max_hp;
+  
+  gameoverSoundPlayed = false;
 }
 
 void draw(){
@@ -73,6 +82,16 @@ void draw(){
   }
   //対戦終了処理
   if(player.getHP() == 0 || enemy.getHP() == 0){
+    if(!gameoverSoundPlayed){
+      if(enemy.getHP() == 0){
+        clearSound.play();
+        gameoverSoundPlayed = true;
+      }
+      else if(player.getHP()!=0){
+        defeatSound.play();
+        gameoverSoundPlayed = true;
+      }
+    }
     gameover();
   }
   //パズル消去
@@ -134,53 +153,63 @@ void draw(){
     text("はい",195,520);
   }
   if(clear){
-    image(RESULT,40, 370, 265, 200);
+    image(RESULT,40, 370, 265, 220);
     GAMECLEAR=loadImage("Images/GAMECLEAR.png");
     image(GAMECLEAR,80,380,185,35);
     textSize(20);
     fill(0,0,0);
-    text("遊んでくれてありがとう！",60,450);
-    text("プログラミング　：Velxot",58,470);
-    text("イラスト(怪人)　：Velxot",60,490);
-    text("イラスト(その他)：こめず",60,510);
-    text("　クリックではじめから",60,550);
+    text("遊んでくれてありがとう！",60,440);
+    text("プログラミング　：Velxot",58,460);
+    text("イラスト(怪人)　：Velxot",60,480);
+    text("イラスト(その他)：こめず",60,500);
+    text("背景(～深海)：Canva",60,520);
+    text("　　　　音声：効果音ラボ",58,540);
+    text("～クリックではじめから＝",55,570);
   }
 }
 
 void mousePressed(){
   if(reset){
-     if ( mouseX >= 100 && mouseX <= 100 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
+    if ( mouseX >= 100 && mouseX <= 100 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
+      tapSound.play();
       reset=false;
-      gameover();
     }
     if ( mouseX >= 192 && mouseX <= 192 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
+      tapSound.play();
       //ステータス全リセット
       reset=false;
       setup();
       startBattle();
     }
+    return;
   }
   if(clear){
+    tapSound.play();
     //ステータス全リセット
     clear=false;
     setup();
     startBattle();
+    return;
   }
   else if(stageselect){
     for(int i=0;i<=reachedstage/5;i++){
       if ( mouseX >= 80 && mouseX <= 80 + 190 && mouseY >= 400+30*i && mouseY <= 400 + 30*i + 30 ){
+        tapSound.play();
         stage = i*5;
         stageselect=false;
         startBattle();
         break;
       }
     }
+    return;
   }
   else if(player.getHP() == 0 || enemy.getHP() == 0){
     if ( mouseX >= 100 && mouseX <= 100 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
+      tapSound.play();
       reset=true;
     }
     if ( mouseX >= 192 && mouseX <= 192 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
+      tapSound.play();
       if(enemy.getHP() == 0){
         stage++;
         if(reachedstage<stage && stage<=max_stage){
@@ -191,6 +220,7 @@ void mousePressed(){
     }
     if(reachedstage / 5 >= 1){
       if ( mouseX >= 100 && mouseX <= 100 + 150 && mouseY >= 470 && mouseY <= 470 + 30 ){
+        tapSound.play();
         stageselect = true;
       }
     }
@@ -276,6 +306,7 @@ void gameover(){
   image(BUTTON,180,500,75,30);
   textSize(40);
   fill(0,0,0);
+  
   if(enemy.getHP() == 0){
     if(stage==max_stage){
       clear=true;

@@ -75,42 +75,42 @@ class Enemy extends Chara{
       max_hp = 500 + (int)random(100);
       hp = max_hp;
       attack_point = 75 + (int)random(6);
-      experience = 500;
+      experience = 200;
       drop=20;
     }
     else if(stage==10){
-      max_hp = 450 + (int)random(100);
+      max_hp = 500 + (int)random(100);
       hp = max_hp;
-      attack_point = 70 + (int)random(6);
-      experience = 450;
+      attack_point = 150 + (int)random(6);
+      experience = 250;
       drop=5;
     }
     else if(stage==11){
-      max_hp = 500 + (int)random(100);
+      max_hp = 600 + (int)random(100);
       hp = max_hp;
-      attack_point = 100 + (int)random(6);
-      experience = 500;
+      attack_point = 200 + (int)random(6);
+      experience = 250;
       drop=5;
     }
     else if(stage==12){
       max_hp = 750 + (int)random(100);
       hp = max_hp;
-      attack_point = 120 + (int)random(6);
-      experience = 600;
+      attack_point = 300 + (int)random(6);
+      experience = 300;
       drop=5;
     }
     else if(stage==13){
       max_hp = 800 + (int)random(100);
       hp = max_hp;
-      attack_point = 150 + (int)random(6);
-      experience = 750;
+      attack_point = 250 + (int)random(6);
+      experience = 350;
       drop=5;
     }
     else if(stage==14){
       max_hp = 1000 + (int)random(100);
       hp = max_hp;
       attack_point = 200 + (int)random(6);
-      experience = 800;
+      experience = 500;
       drop=5;
     }
     
