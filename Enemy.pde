@@ -6,6 +6,12 @@ class Enemy extends Chara{
   private final int DAMAGE_DISPLAY_DURATION = 1500; // 1.5秒
   private float damageDisplayOffsetX = 0;
   private float damageDisplayOffsetY = 0;
+  
+  // フェードアウト用のフィールドを追加
+  private boolean isFadingOut = false;
+  private float fadeAlpha = 255;
+  private final float FADE_SPEED = 10; // フェード速度（大きいほど速い）
+  
   Enemy(){
     super();
     if(stage==0){
@@ -133,21 +139,39 @@ class Enemy extends Chara{
   
   // 攻撃を受け付け、ダメージ表示を開始するメソッド
   public void receiveDamage(int damage) {
-    this.setHP(this.getHP() - damage); // CharaのsetHPを呼び出す
+    this.setHP(this.getHP() - damage);
     this.lastDamage = damage;
     this.damageDisplayStartTime = millis();
     this.damageDisplayOffsetX = random(-50, 50); 
     this.damageDisplayOffsetY = random(-50, 50);
+    
+    // HPが0になったらフェードアウト開始
+    if(this.hp <= 0){
+      isFadingOut = true;
+    }
   }
   
 void paint(){
+    // フェードアウト処理
+    if(isFadingOut){
+      fadeAlpha -= FADE_SPEED;
+      if(fadeAlpha < 0){
+        fadeAlpha = 0;
+      }
+    }
     image(BACK,0,0,360,265);
+    // 敵の画像に透明度を適用してから描画
+    tint(255, 255, 255, fadeAlpha);
     if(stage>=7){
       image(ENEMY,60,20, 240, 240);//AIイラスト用
     }
     else{
       image(ENEMY,0,-95, 360, 360);//人力イラスト用
     }
+    
+    // tintをリセット
+    noTint();
+    
     fill(255, 0, 0);
     rect(80,8,200,8);
     fill(0,255,0);
@@ -207,5 +231,16 @@ void paint(){
       // 描画設定を元に戻す
       textAlign(LEFT);
     }
+  }
+  
+  // フェードアウトが完了したかを確認するメソッド（オプション）
+  public boolean isFadeComplete(){
+    return fadeAlpha <= 0;
+  }
+  
+  // 新しいバトル開始時にリセット
+  public void resetFade(){
+    isFadingOut = false;
+    fadeAlpha = 255;
   }
 }

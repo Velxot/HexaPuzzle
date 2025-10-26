@@ -47,7 +47,7 @@ void setup(){
   for(int i = 0; i < hexagons.length; i++){
     hexagons[i] = new Hexagon(i/6,i%6);
   }
-  exp_flug=true;
+  exp_flug = true;
   tapSound = new SoundFile(this,"決定ボタンを押す2.mp3");
   attackSound = new SoundFile(this, "小パンチ.mp3");
   clearSound = new SoundFile(this, "決定ボタンを押す8.mp3");
@@ -164,7 +164,7 @@ void draw(){
     text("イラスト(その他)：こめず",60,500);
     text("背景(～深海)：Canva",60,520);
     text("　　　　音声：効果音ラボ",58,540);
-    text("～クリックではじめから＝",55,570);
+    text("～クリックではじめから～",55,570);
   }
 }
 
@@ -257,15 +257,15 @@ void setEnemy(int stage){
     BACK=loadImage("Images/grassland.png");
   }
   if(stage==5){
-    ENEMY=loadImage("Images/poseidon.png");//sasori
+    ENEMY=loadImage("Images/sasori_hex.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==6){
-    ENEMY=loadImage("Images/zeus.png");
+    ENEMY=loadImage("Images/poseidon.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==7){
-    ENEMY=loadImage("Images/rakuda.png");
+    ENEMY=loadImage("Images/zeus.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==8){
