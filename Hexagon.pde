@@ -32,19 +32,19 @@ class Hexagon{
     
     color fillColor;
     if(element == 0){
-      fillColor = color(255, 70, 136);
+      fillColor = color(255, 127, 129);
     }
     else if(element == 1){
-      fillColor = color(70, 200, 136);
+      fillColor = color(127, 255, 131);
     }
     else if(element == 2){
-      fillColor = color(70, 136, 255);
+      fillColor = color(127, 140, 255);
     }
     else if(element == 3){
-      fillColor = color(230, 230, 70);
+      fillColor = color(255, 255, 127);
     }
     else if(element == 4){
-      fillColor = color(230, 70, 230);
+      fillColor = color(255, 126, 255);
     }
     else{
       fillColor = color(255,255,255);
@@ -352,7 +352,7 @@ class Hexagon{
 
   void supply(){
     if(this.element==-1){
-      if(disappearProgress >= 1.0){  // アニメーション完了後に補充
+      if(disappearProgress >= 0.5){  // アニメーション完了後に補充
         this.element=(int)random(5);
         this.skill = -1;
         this.matched = false;

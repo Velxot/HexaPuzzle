@@ -87,35 +87,35 @@ class Enemy extends Chara{
     else if(stage==10){
       max_hp = 500 + (int)random(100);
       hp = max_hp;
-      attack_point = 150 + (int)random(6);
+      attack_point = 100 + (int)random(6);
       experience = 250;
       drop=5;
     }
     else if(stage==11){
       max_hp = 600 + (int)random(100);
       hp = max_hp;
-      attack_point = 200 + (int)random(6);
+      attack_point = 150 + (int)random(6);
       experience = 250;
       drop=5;
     }
     else if(stage==12){
-      max_hp = 750 + (int)random(100);
+      max_hp = 950 + (int)random(100);
       hp = max_hp;
-      attack_point = 300 + (int)random(6);
+      attack_point = 400 + (int)random(6);
       experience = 300;
       drop=5;
     }
     else if(stage==13){
       max_hp = 800 + (int)random(100);
       hp = max_hp;
-      attack_point = 250 + (int)random(6);
+      attack_point = 400 + (int)random(6);
       experience = 350;
       drop=5;
     }
     else if(stage==14){
       max_hp = 1000 + (int)random(100);
       hp = max_hp;
-      attack_point = 200 + (int)random(6);
+      attack_point = 500 + (int)random(6);
       experience = 500;
       drop=5;
     }
@@ -162,12 +162,8 @@ void paint(){
     image(BACK,0,0,360,265);
     // 敵の画像に透明度を適用してから描画
     tint(255, 255, 255, fadeAlpha);
-    if(stage>=7){
-      image(ENEMY,60,20, 240, 240);//AIイラスト用
-    }
-    else{
-      image(ENEMY,0,-95, 360, 360);//人力イラスト用
-    }
+    //image(ENEMY,60,20, 240, 240);//AIイラスト用
+    image(ENEMY,0,-95, 360, 360);//人力イラスト用
     
     // tintをリセット
     noTint();
@@ -182,7 +178,6 @@ void paint(){
   
     if (elapsedTime < DAMAGE_DISPLAY_DURATION) {
     
-      // 敵の中心座標を仮に (180, 200) とします。
       final float ENEMY_CENTER_X = 180; 
       final float ENEMY_CENTER_Y = 200;
     
@@ -197,16 +192,15 @@ void paint(){
       
       // 3. 画像とテキストの描画
       
-      // 画像のサイズ（使用する画像に合わせて調整してください）
-      // 例: 幅80px、高さ50pxと仮定
+      // 画像のサイズ
       float bubbleWidth = 80;
       float bubbleHeight = 50;
       
-      // 画像の中心座標を計算（画像を中央に配置するため）
+      // 画像の中心座標を計算
       float bubbleImageX = displayX - bubbleWidth / 2;
       float bubbleImageY = displayY - bubbleHeight / 2;
       
-      // PImageの透明度を設定（`tint()`を使用）
+      // PImageの透明度を設定
       tint(255, 255, 255, alpha); 
       
       // 3-1. ダメージ吹き出し画像を描画

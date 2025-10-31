@@ -14,7 +14,6 @@ PImage DAMAGE;
 SoundFile tapSound;
 SoundFile attackSound; // 攻撃音用の変数
 SoundFile clearSound;
-SoundFile defeatSound;
 int situation;
 boolean matched;
 boolean enemyturn;
@@ -51,7 +50,6 @@ void setup(){
   tapSound = new SoundFile(this,"決定ボタンを押す2.mp3");
   attackSound = new SoundFile(this, "小パンチ.mp3");
   clearSound = new SoundFile(this, "決定ボタンを押す8.mp3");
-  defeatSound = new SoundFile(this, "決定ボタンを押す18.mp3");
   DAMAGE = loadImage("Images/damage_UI.png");
 }
 
@@ -85,10 +83,6 @@ void draw(){
     if(!gameoverSoundPlayed){
       if(enemy.getHP() == 0){
         clearSound.play();
-        gameoverSoundPlayed = true;
-      }
-      else if(player.getHP()!=0){
-        defeatSound.play();
         gameoverSoundPlayed = true;
       }
     }
@@ -261,15 +255,15 @@ void setEnemy(int stage){
     BACK=loadImage("Images/desert.png");
   }
   if(stage==6){
-    ENEMY=loadImage("Images/poseidon.png");
+    ENEMY=loadImage("Images/kangaroo.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==7){
-    ENEMY=loadImage("Images/zeus.png");
+    ENEMY=loadImage("Images/rakuda_hex.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==8){
-    ENEMY=loadImage("Images/datyou.png");
+    ENEMY=loadImage("Images/datyou_hex.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==9){
@@ -277,15 +271,15 @@ void setEnemy(int stage){
     BACK=loadImage("Images/desert.png");
   }
   if(stage==10){
-    ENEMY=loadImage("Images/fish.png");
+    ENEMY=loadImage("Images/poseidon.png");
     BACK=loadImage("Images/deepsea.png");
   }
   if(stage==11){
-    ENEMY=loadImage("Images/squash.png");
+    ENEMY=loadImage("Images/zeus.png");
     BACK=loadImage("Images/deepsea.png");
   }
   if(stage==12){
-    ENEMY=loadImage("Images/clab.png");
+    ENEMY=loadImage("Images/hades.png");
     BACK=loadImage("Images/deepsea.png");
   }
   if(stage==13){
