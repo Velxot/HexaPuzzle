@@ -7,6 +7,7 @@ PImage ENEMY;
 PImage BACK;
 PImage RESULT;
 PImage BUTTON;
+PImage REDO;
 PImage YOUWIN;
 PImage YOULOSE;
 PImage GAMECLEAR;
@@ -124,7 +125,9 @@ void draw(){
   if(stageselect){
     RESULT = loadImage("Images/result.png");
     BUTTON = loadImage("Images/button.png");
+    REDO = loadImage("Images/back.png");
     image(RESULT,85, 370, 175, 180);
+    image(REDO,90, 375, 20, 20);
     textSize(18);
     fill(255,255,255);
     for(int i=0;i<=reachedstage/5;i++){
@@ -156,7 +159,7 @@ void draw(){
     text("プログラミング　：Velxot",58,460);
     text("イラスト(怪人)　：Velxot",60,480);
     text("イラスト(その他)：こめず",60,500);
-    text("背景(～深海)：Canva",60,520);
+    text("　　　　背景：Canva",60,520);
     text("　　　　音声：効果音ラボ",58,540);
     text("～クリックではじめから～",55,570);
   }
@@ -186,6 +189,10 @@ void mousePressed(){
     return;
   }
   else if(stageselect){
+    if((mouseX-100) * (mouseX-100)+ (mouseY-385) *(mouseY-385) <= 20 * 20){
+      tapSound.play();
+      stageselect = false;
+    }
     for(int i=0;i<=reachedstage/5;i++){
       if ( mouseX >= 80 && mouseX <= 80 + 190 && mouseY >= 400+30*i && mouseY <= 400 + 30*i + 30 ){
         tapSound.play();
@@ -255,7 +262,7 @@ void setEnemy(int stage){
     BACK=loadImage("Images/desert.png");
   }
   if(stage==6){
-    ENEMY=loadImage("Images/kangaroo.png");
+    ENEMY=loadImage("Images/kangaroo_hex.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==7){
@@ -283,7 +290,7 @@ void setEnemy(int stage){
     BACK=loadImage("Images/deepsea.png");
   }
   if(stage==13){
-    ENEMY=loadImage("Images/jaws.png");
+    ENEMY=loadImage("Images/angel.png");
     BACK=loadImage("Images/deepsea.png");
   }
   if(stage==14){

@@ -41,7 +41,7 @@ class Hexagon{
       fillColor = color(127, 140, 255);
     }
     else if(element == 3){
-      fillColor = color(255, 255, 127);
+      fillColor = color(213, 255, 135);
     }
     else if(element == 4){
       fillColor = color(255, 126, 255);
@@ -364,13 +364,41 @@ class Hexagon{
   } 
   
   boolean selected(){
-    if((mouseX-pos_x)*(mouseX-pos_x) + (mouseY-pos_y)*(mouseY-pos_y) < r*r){
-      this.matched = true;
-      findMatch(hexagons,this.x,this.y);
-      return true;
+  float relX = mouseX - pos_x;
+  float relY = mouseY - pos_y;
+  
+  if(isInsideHexagon(relX, relY)){
+    this.matched = true;
+    findMatch(hexagons,this.x,this.y);
+    return true;
+  }
+  return false;
+}
+
+  private boolean isInsideHexagon(float px, float py){
+  // まず大まかな円形判定で高速に除外
+  if(px*px + py*py > r*r){
+    return false;
+  }
+  
+    // 正確な六角形判定（レイキャスティング）
+    boolean inside = false;
+    float prevX = r * cos(radians(360.0/6 * 5));
+    float prevY = r * sin(radians(360.0/6 * 5));
+  
+    for(int i = 0; i < 6; i++){
+      float currX = r * cos(radians(360.0/6 * i));
+      float currY = r * sin(radians(360.0/6 * i));
+    
+      if(((currY > py) != (prevY > py)) &&
+         (px < (prevX - currX) * (py - currY) / (prevY - currY) + currX)){
+        inside = !inside;
+      }
+    
+      prevX = currX;
+      prevY = currY;
     }
-    else{
-      return false;
-    }
+  
+    return inside;
   }
 }
