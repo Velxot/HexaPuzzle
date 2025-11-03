@@ -32,7 +32,7 @@ class Hexagon{
     
     color fillColor;
     if(element == 0){
-      fillColor = color(255, 127, 129);
+      fillColor = color(255, 155, 127);
     }
     else if(element == 1){
       fillColor = color(127, 255, 131);

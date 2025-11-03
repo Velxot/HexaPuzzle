@@ -99,9 +99,9 @@ class Enemy extends Chara{
       drop=5;
     }
     else if(stage==12){
-      max_hp = 950 + (int)random(100);
+      max_hp = 750 + (int)random(100);
       hp = max_hp;
-      attack_point = 400 + (int)random(6);
+      attack_point = 250 + (int)random(6);
       experience = 300;
       drop=5;
     }

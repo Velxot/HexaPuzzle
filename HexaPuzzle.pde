@@ -13,7 +13,7 @@ PImage YOULOSE;
 PImage GAMECLEAR;
 PImage DAMAGE;
 SoundFile tapSound;
-SoundFile attackSound; // 攻撃音用の変数
+SoundFile attackSound;
 SoundFile clearSound;
 int situation;
 boolean matched;
@@ -27,7 +27,7 @@ int drop_num;
 boolean stageselect = false;  //ステージセレクト画面を表示するか
 boolean reset = false;  //リセット確認画面を表示するか
 boolean clear = false;  //クリア画面を表示するか
-String[] stagename = {"草原","砂漠","深海"};
+String[] stagename = {"草原","砂漠","天界"};
 int damageDisplayValue = 0;
 long damageDisplayStartTime = 0;
 final int DISPLAY_DURATION = 1500; // 1500ミリ秒 (1.5秒) 表示
@@ -159,8 +159,8 @@ void draw(){
     text("プログラミング　：Velxot",58,460);
     text("イラスト(怪人)　：Velxot",60,480);
     text("イラスト(その他)：こめず",60,500);
-    text("　　　　背景：Canva",60,520);
-    text("　　　　音声：効果音ラボ",58,540);
+    text("　　背景：Canva",60,520);
+    text("　　音声：効果音ラボ",58,540);
     text("～クリックではじめから～",55,570);
   }
 }
@@ -279,23 +279,23 @@ void setEnemy(int stage){
   }
   if(stage==10){
     ENEMY=loadImage("Images/poseidon.png");
-    BACK=loadImage("Images/deepsea.png");
+    BACK=loadImage("Images/heaven.png");
   }
   if(stage==11){
     ENEMY=loadImage("Images/zeus.png");
-    BACK=loadImage("Images/deepsea.png");
+    BACK=loadImage("Images/heaven.png");
   }
   if(stage==12){
     ENEMY=loadImage("Images/hades.png");
-    BACK=loadImage("Images/deepsea.png");
+    BACK=loadImage("Images/heaven.png");
   }
   if(stage==13){
     ENEMY=loadImage("Images/angel.png");
-    BACK=loadImage("Images/deepsea.png");
+    BACK=loadImage("Images/heaven.png");
   }
   if(stage==14){
     ENEMY=loadImage("Images/whale.png");
-    BACK=loadImage("Images/deepsea.png");
+    BACK=loadImage("Images/heaven.png");
   }
 }
 
