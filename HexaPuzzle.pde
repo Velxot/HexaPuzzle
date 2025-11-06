@@ -15,6 +15,7 @@ PImage DAMAGE;
 SoundFile tapSound;
 SoundFile attackSound;
 SoundFile clearSound;
+SoundFile defeatSound;
 int situation;
 boolean matched;
 boolean enemyturn;
@@ -51,6 +52,7 @@ void setup(){
   tapSound = new SoundFile(this,"決定ボタンを押す2.mp3");
   attackSound = new SoundFile(this, "小パンチ.mp3");
   clearSound = new SoundFile(this, "決定ボタンを押す8.mp3");
+  defeatSound = new SoundFile(this, "落ち込む.mp3");
   DAMAGE = loadImage("Images/damage_UI.png");
 }
 
@@ -79,16 +81,7 @@ void draw(){
   for(int i=0;i<hexagons.length;i++){
     hexagons[i].paint();
   }
-  //対戦終了処理
-  if(player.getHP() == 0 || enemy.getHP() == 0){
-    if(!gameoverSoundPlayed){
-      if(enemy.getHP() == 0){
-        clearSound.play();
-        gameoverSoundPlayed = true;
-      }
-    }
-    gameover();
-  }
+  
   //パズル消去
   if(situation==0){
     for(int i = 0; i < hexagons.length; i++){
@@ -110,16 +103,40 @@ void draw(){
         situation = 2;
         delay(200);
         
+        // プレイヤーの攻撃
         player.applyDamage(enemy, attackSound);
+        
+        // 敵の攻撃（敵が生きていて、enemyturnがtrueの場合のみ）
+        if(enemyturn && enemy.getHP() > 0){
+          enemy.attack(player);
+        }
+        
+        // enemyturnをリセット
+        enemyturn = false;
+        
+        // 両方の攻撃が終了した後に勝敗判定
+        if(player.getHP() == 0 || enemy.getHP() == 0){
+          if(!gameoverSoundPlayed){
+            if(enemy.getHP() == 0){
+              clearSound.play();
+              gameoverSoundPlayed = true;
+            }
+            else{
+              defeatSound.play();
+              gameoverSoundPlayed = true;
+            }
+          }
+        }
         
         if(enemy.getHP() <= 0){
           situation = 3;
         }
       }
     }
-  if(enemyturn){
-    enemy.attack(player);
-    enemyturn = false;
+  
+  // 対戦終了処理の表示
+  if(player.getHP() == 0 || enemy.getHP() == 0){
+    gameover();
   }
   
   if(stageselect){
@@ -164,7 +181,6 @@ void draw(){
     text("～クリックではじめから～",55,570);
   }
 }
-
 void mousePressed(){
   if(reset){
     if ( mouseX >= 100 && mouseX <= 100 + 60 && mouseY >= 500 && mouseY <= 500 + 20 ){
