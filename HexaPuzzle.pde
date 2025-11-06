@@ -274,7 +274,7 @@ void setEnemy(int stage){
     BACK=loadImage("Images/desert.png");
   }
   if(stage==9){
-    ENEMY=loadImage("Images/elephant.png");
+    ENEMY=loadImage("Images/elephant_hex.png");
     BACK=loadImage("Images/desert.png");
   }
   if(stage==10){
@@ -294,7 +294,7 @@ void setEnemy(int stage){
     BACK=loadImage("Images/heaven.png");
   }
   if(stage==14){
-    ENEMY=loadImage("Images/whale.png");
+    ENEMY=loadImage("Images/satan.png");
     BACK=loadImage("Images/heaven.png");
   }
 }
